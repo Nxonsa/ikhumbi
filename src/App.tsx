@@ -8,6 +8,10 @@ import PassengerHome from "./pages/passenger/Home";
 import DriverHome from "./pages/driver/Home";
 import Map from "./pages/Map";
 import Landing from "./pages/Landing";
+import AdminDashboard from "./pages/admin/Dashboard";
+import DriverReviews from "./pages/driver/Reviews";
+import PrivateBooking from "./pages/passenger/PrivateBooking";
+import TaxiManagement from "./pages/driver/TaxiManagement";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +27,10 @@ const App = () => (
             <Route path="/passenger" element={<PassengerHome />} />
             <Route path="/driver" element={<DriverHome />} />
             <Route path="/map" element={<Map />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/driver/reviews/:id" element={<DriverReviews />} />
+            <Route path="/passenger/private-booking" element={<PrivateBooking />} />
+            <Route path="/driver/taxi-management" element={<TaxiManagement />} />
           </Routes>
         </AnimatePresence>
       </BrowserRouter>
