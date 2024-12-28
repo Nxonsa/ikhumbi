@@ -16,9 +16,15 @@ import {
   DollarSign,
   ChartBar,
   Calendar,
+  AlertCircle,
 } from "lucide-react";
+import { useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
 
 const TaxiManagement = () => {
+  const { toast } = useToast();
+  const [reportMessage, setReportMessage] = useState("");
+
   // Mock data - replace with actual data from your backend
   const vehicleInfo = {
     model: "Toyota Quantum",
@@ -34,8 +40,17 @@ const TaxiManagement = () => {
       amount: 150,
       commission: 22.5,
       paymentMethod: "NFC",
+      type: "Regular",
     },
-    // Add more bookings as needed
+    {
+      id: 2,
+      date: "2024-02-21",
+      passenger: "Jane Smith",
+      amount: 200,
+      commission: 30,
+      paymentMethod: "NFC",
+      type: "Private",
+    },
   ];
 
   const statistics = {
@@ -43,6 +58,25 @@ const TaxiManagement = () => {
     totalEarnings: 6750,
     totalCommission: 1012.5,
     activeBookings: 3,
+  };
+
+  const handleReportSubmit = () => {
+    if (!reportMessage.trim()) {
+      toast({
+        title: "Error",
+        description: "Please enter a message for your report",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Here you would typically send the report to your backend
+    console.log("Report submitted:", reportMessage);
+    toast({
+      title: "Report Submitted",
+      description: "An admin will review your report shortly",
+    });
+    setReportMessage("");
   };
 
   return (
@@ -125,6 +159,28 @@ const TaxiManagement = () => {
           </Card>
         </div>
 
+        {/* Report to Admin */}
+        <Card className="p-6">
+          <div className="flex items-center space-x-4 mb-4">
+            <AlertCircle className="h-6 w-6 text-neutral-600" />
+            <h2 className="text-xl font-semibold">Report to Admin</h2>
+          </div>
+          <div className="space-y-4">
+            <textarea
+              value={reportMessage}
+              onChange={(e) => setReportMessage(e.target.value)}
+              className="w-full h-32 p-3 border rounded-md"
+              placeholder="Describe your issue or concern..."
+            />
+            <Button 
+              onClick={handleReportSubmit}
+              className="bg-neutral-800 hover:bg-neutral-700 text-white"
+            >
+              Submit Report
+            </Button>
+          </div>
+        </Card>
+
         {/* Bookings Table */}
         <Card className="p-6">
           <div className="flex items-center justify-between mb-4">
@@ -138,8 +194,9 @@ const TaxiManagement = () => {
               <TableRow>
                 <TableHead>Date</TableHead>
                 <TableHead>Passenger</TableHead>
+                <TableHead>Type</TableHead>
                 <TableHead>Amount (R)</TableHead>
-                <TableHead>Commission (15%)</TableHead>
+                <TableHead>Commission</TableHead>
                 <TableHead>Payment Method</TableHead>
               </TableRow>
             </TableHeader>
@@ -148,8 +205,17 @@ const TaxiManagement = () => {
                 <TableRow key={booking.id}>
                   <TableCell>{booking.date}</TableCell>
                   <TableCell>{booking.passenger}</TableCell>
+                  <TableCell>
+                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                      booking.type === 'Private' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'
+                    }`}>
+                      {booking.type}
+                    </span>
+                  </TableCell>
                   <TableCell>R{booking.amount}</TableCell>
-                  <TableCell>R{booking.commission}</TableCell>
+                  <TableCell>
+                    R{booking.commission} ({booking.type === 'Private' ? '15%' : '15%'})
+                  </TableCell>
                   <TableCell>
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                       {booking.paymentMethod}
