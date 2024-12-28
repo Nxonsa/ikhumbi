@@ -13,7 +13,8 @@ import {
   AlertTriangleIcon, 
   StarIcon, 
   CarIcon, 
-  UsersIcon 
+  UsersIcon,
+  MessageSquareIcon,
 } from "lucide-react";
 
 const AdminDashboard = () => {
@@ -21,6 +22,24 @@ const AdminDashboard = () => {
   const reportedDrivers = [
     { id: 1, name: "John Doe", reports: 2, status: "Under Review" },
     { id: 2, name: "Jane Smith", reports: 1, status: "Resolved" },
+  ];
+
+  // Mock data for owner reports
+  const ownerReports = [
+    { 
+      id: 1, 
+      ownerName: "Mike Johnson",
+      message: "Payment system was down yesterday",
+      date: "2024-02-21",
+      status: "New" 
+    },
+    { 
+      id: 2, 
+      ownerName: "Sarah Williams",
+      message: "Need assistance with subscription renewal",
+      date: "2024-02-20",
+      status: "In Progress" 
+    },
   ];
 
   return (
@@ -75,6 +94,53 @@ const AdminDashboard = () => {
           </Card>
         </div>
 
+        {/* Owner Reports Section */}
+        <Card className="p-6 bg-white shadow-sm">
+          <div className="flex items-center space-x-2 mb-4">
+            <MessageSquareIcon className="h-5 w-5 text-blue-500" />
+            <h2 className="text-2xl font-semibold">Owner Reports</h2>
+          </div>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Owner</TableHead>
+                <TableHead>Message</TableHead>
+                <TableHead>Date</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {ownerReports.map((report) => (
+                <TableRow key={report.id}>
+                  <TableCell className="font-medium">{report.ownerName}</TableCell>
+                  <TableCell>{report.message}</TableCell>
+                  <TableCell>{report.date}</TableCell>
+                  <TableCell>
+                    <Badge 
+                      variant={
+                        report.status === "New" 
+                          ? "destructive" 
+                          : report.status === "In Progress" 
+                          ? "default" 
+                          : "secondary"
+                      }
+                    >
+                      {report.status}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <button className="text-sm text-blue-600 hover:underline">
+                      Review
+                    </button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Card>
+
+        {/* Reported Drivers Section */}
         <Card className="p-6 bg-white shadow-sm">
           <h2 className="text-2xl font-semibold mb-4">Reported Drivers</h2>
           <Table>
