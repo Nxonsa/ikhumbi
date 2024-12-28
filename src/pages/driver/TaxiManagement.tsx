@@ -8,6 +8,7 @@ import { VehicleInfo } from "@/components/driver/VehicleInfo";
 import { StatisticsCards } from "@/components/driver/StatisticsCards";
 import { RatingsCard } from "@/components/driver/RatingsCard";
 import { BookingsTable } from "@/components/driver/BookingsTable";
+import { CommentsCard } from "@/components/driver/CommentsCard";
 
 const TaxiManagement = () => {
   const { toast } = useToast();
@@ -60,6 +61,21 @@ const TaxiManagement = () => {
     },
   };
 
+  const comments = [
+    {
+      id: 1,
+      passenger: "Alice Johnson",
+      comment: "Very professional and punctual driver!",
+      date: "2024-02-20",
+    },
+    {
+      id: 2,
+      passenger: "Bob Wilson",
+      comment: "Great conversation and safe driving.",
+      date: "2024-02-19",
+    },
+  ];
+
   const handleReportSubmit = () => {
     if (!reportMessage.trim()) {
       toast({
@@ -94,6 +110,7 @@ const TaxiManagement = () => {
         <VehicleInfo {...vehicleInfo} />
         <StatisticsCards {...statistics} />
         <RatingsCard {...ratings} />
+        <CommentsCard comments={comments} />
 
         {/* Report to Admin */}
         <Card className="p-6">
