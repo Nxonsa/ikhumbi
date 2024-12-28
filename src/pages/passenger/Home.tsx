@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { MapIcon, CreditCardIcon, InfoIcon } from "lucide-react";
+import { MapIcon, CreditCardIcon, InfoIcon, CalendarIcon } from "lucide-react";
 
 const PassengerHome = () => {
   const navigate = useNavigate();
@@ -26,6 +26,12 @@ const PassengerHome = () => {
       description: "Support our service",
       action: () => navigate("/donate"),
     },
+    {
+      icon: <CalendarIcon className="h-6 w-6" />,
+      title: "Private Booking",
+      description: "Book a taxi for special events",
+      action: () => navigate("/passenger/private-booking"),
+    },
   ];
 
   return (
@@ -33,7 +39,7 @@ const PassengerHome = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen bg-gradient-to-b from-orange-50 to-orange-100 p-4"
+      className="min-h-screen bg-gradient-to-b from-neutral-50 to-neutral-100 p-4"
     >
       <div className="max-w-4xl mx-auto space-y-6">
         <motion.div
@@ -50,7 +56,7 @@ const PassengerHome = () => {
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="grid gap-4 md:grid-cols-3"
+          className="grid gap-4 md:grid-cols-2 lg:grid-cols-4"
         >
           {features.map((feature, index) => (
             <Card
@@ -64,7 +70,7 @@ const PassengerHome = () => {
                 transition={{ delay: 0.2 + index * 0.1 }}
                 className="space-y-4"
               >
-                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                <div className="h-12 w-12 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-600">
                   {feature.icon}
                 </div>
                 <h2 className="font-semibold text-xl">{feature.title}</h2>
