@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { MapIcon, MessageSquareIcon, UsersIcon } from "lucide-react";
+import { MapIcon, MessageSquareIcon, UsersIcon, CreditCardIcon } from "lucide-react";
 
 const DriverHome = () => {
   const navigate = useNavigate();
@@ -25,6 +25,12 @@ const DriverHome = () => {
       title: "Passenger List",
       description: "View your passengers",
       action: () => navigate("/passengers"),
+    },
+    {
+      icon: <CreditCardIcon className="h-6 w-6" />,
+      title: "NFC Earnings",
+      description: "View your earnings and commissions",
+      action: () => navigate("/driver/taxi-management"),
     },
   ];
 
@@ -50,7 +56,7 @@ const DriverHome = () => {
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="grid gap-4 md:grid-cols-3"
+          className="grid gap-4 md:grid-cols-2 lg:grid-cols-4"
         >
           {features.map((feature, index) => (
             <Card
