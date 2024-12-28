@@ -8,6 +8,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
+import { useNavigate } from "react-router-dom";
 import {
   Form,
   FormControl,
@@ -30,6 +33,9 @@ type BookingFormValues = z.infer<typeof bookingSchema>;
 
 const PrivateBooking = () => {
   const { toast } = useToast();
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  
   const form = useForm<BookingFormValues>({
     resolver: zodResolver(bookingSchema),
     defaultValues: {
@@ -43,21 +49,25 @@ const PrivateBooking = () => {
   });
 
   const onSubmit = async (data: BookingFormValues) => {
-    console.log("Submitting booking:", data);
     try {
-      // Here we would typically make an API call to save the booking
-      // For now, we'll simulate a successful submission
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Notify admin (this would be replaced with actual admin notification logic)
-      console.log("Notifying admin of new booking");
-      
+      const { error } = await supabase.from('private_bookings').insert({
+        user_id: user?.id,
+        event_type: data.eventType,
+        date: data.date,
+        time: data.time,
+        pickup_location: data.pickupLocation,
+        phone_number: data.phoneNumber,
+        additional_details: data.additionalDetails,
+      });
+
+      if (error) throw error;
+
       toast({
         title: "Booking Submitted Successfully",
         description: "An admin will contact you shortly to confirm your booking.",
       });
-      
-      form.reset();
+
+      navigate('/passenger');
     } catch (error) {
       console.error("Booking submission error:", error);
       toast({

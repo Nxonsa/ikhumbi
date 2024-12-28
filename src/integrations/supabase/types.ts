@@ -75,6 +75,48 @@ export type Database = {
         }
         Relationships: []
       }
+      private_bookings: {
+        Row: {
+          additional_details: string | null
+          created_at: string | null
+          date: string
+          event_type: string
+          id: string
+          phone_number: string
+          pickup_location: string
+          status: string
+          time: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          additional_details?: string | null
+          created_at?: string | null
+          date: string
+          event_type: string
+          id?: string
+          phone_number: string
+          pickup_location: string
+          status?: string
+          time: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          additional_details?: string | null
+          created_at?: string | null
+          date?: string
+          event_type?: string
+          id?: string
+          phone_number?: string
+          pickup_location?: string
+          status?: string
+          time?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           category: string
