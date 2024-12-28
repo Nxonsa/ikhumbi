@@ -4,11 +4,63 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { CalendarIcon, ClockIcon, MapPinIcon } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { useToast } from "@/hooks/use-toast";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
+const bookingSchema = z.object({
+  eventType: z.string().min(1, "Event type is required"),
+  date: z.string().min(1, "Date is required"),
+  time: z.string().min(1, "Time is required"),
+  pickupLocation: z.string().min(1, "Pickup location is required"),
+  additionalDetails: z.string().optional(),
+});
+
+type BookingFormValues = z.infer<typeof bookingSchema>;
 
 const PrivateBooking = () => {
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle booking submission
+  const { toast } = useToast();
+  const form = useForm<BookingFormValues>({
+    resolver: zodResolver(bookingSchema),
+    defaultValues: {
+      eventType: "",
+      date: "",
+      time: "",
+      pickupLocation: "",
+      additionalDetails: "",
+    },
+  });
+
+  const onSubmit = async (data: BookingFormValues) => {
+    console.log("Form submitted with data:", data);
+    try {
+      // Here you would typically make an API call to save the booking
+      // For now, we'll simulate a successful booking
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+      
+      toast({
+        title: "Booking Submitted!",
+        description: "We'll contact you shortly to confirm your booking.",
+      });
+      
+      form.reset();
+    } catch (error) {
+      console.error("Booking submission error:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "There was a problem submitting your booking. Please try again.",
+      });
+    }
   };
 
   return (
@@ -25,45 +77,99 @@ const PrivateBooking = () => {
         </div>
 
         <Card className="p-6 bg-white shadow-sm">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Event Type</label>
-              <Input type="text" placeholder="e.g., Wedding, Corporate Event" />
-            </div>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
+                name="eventType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Event Type</FormLabel>
+                    <FormControl>
+                      <Input placeholder="e.g., Wedding, Corporate Event" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Date</label>
-              <div className="relative">
-                <Input type="date" className="pl-10" />
-                <CalendarIcon className="absolute left-3 top-2.5 h-5 w-5 text-neutral-500" />
-              </div>
-            </div>
+              <FormField
+                control={form.control}
+                name="date"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Date</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input type="date" className="pl-10" {...field} />
+                        <CalendarIcon className="absolute left-3 top-2.5 h-5 w-5 text-neutral-500" />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Time</label>
-              <div className="relative">
-                <Input type="time" className="pl-10" />
-                <ClockIcon className="absolute left-3 top-2.5 h-5 w-5 text-neutral-500" />
-              </div>
-            </div>
+              <FormField
+                control={form.control}
+                name="time"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Time</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input type="time" className="pl-10" {...field} />
+                        <ClockIcon className="absolute left-3 top-2.5 h-5 w-5 text-neutral-500" />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Pickup Location</label>
-              <div className="relative">
-                <Input type="text" placeholder="Enter pickup address" className="pl-10" />
-                <MapPinIcon className="absolute left-3 top-2.5 h-5 w-5 text-neutral-500" />
-              </div>
-            </div>
+              <FormField
+                control={form.control}
+                name="pickupLocation"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Pickup Location</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input placeholder="Enter pickup address" className="pl-10" {...field} />
+                        <MapPinIcon className="absolute left-3 top-2.5 h-5 w-5 text-neutral-500" />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Additional Details</label>
-              <Textarea placeholder="Any special requirements or notes" />
-            </div>
+              <FormField
+                control={form.control}
+                name="additionalDetails"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Additional Details</FormLabel>
+                    <FormControl>
+                      <Textarea 
+                        placeholder="Any special requirements or notes" 
+                        {...field} 
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <Button type="submit" className="w-full bg-neutral-800 hover:bg-neutral-700">
-              Request Booking
-            </Button>
-          </form>
+              <Button 
+                type="submit" 
+                className="w-full bg-neutral-800 hover:bg-neutral-700"
+                disabled={form.formState.isSubmitting}
+              >
+                {form.formState.isSubmitting ? "Submitting..." : "Request Booking"}
+              </Button>
+            </form>
+          </Form>
         </Card>
       </div>
     </motion.div>
