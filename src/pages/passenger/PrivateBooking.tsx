@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { CalendarIcon, ClockIcon, MapPinIcon } from "lucide-react";
+import { CalendarIcon, ClockIcon, MapPinIcon, PhoneIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -22,6 +22,7 @@ const bookingSchema = z.object({
   date: z.string().min(1, "Date is required"),
   time: z.string().min(1, "Time is required"),
   pickupLocation: z.string().min(1, "Pickup location is required"),
+  phoneNumber: z.string().min(10, "Valid phone number is required"),
   additionalDetails: z.string().optional(),
 });
 
@@ -36,20 +37,24 @@ const PrivateBooking = () => {
       date: "",
       time: "",
       pickupLocation: "",
+      phoneNumber: "",
       additionalDetails: "",
     },
   });
 
   const onSubmit = async (data: BookingFormValues) => {
-    console.log("Form submitted with data:", data);
+    console.log("Submitting booking:", data);
     try {
-      // Here you would typically make an API call to save the booking
-      // For now, we'll simulate a successful booking
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+      // Here we would typically make an API call to save the booking
+      // For now, we'll simulate a successful submission
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Notify admin (this would be replaced with actual admin notification logic)
+      console.log("Notifying admin of new booking");
       
       toast({
-        title: "Booking Submitted!",
-        description: "We'll contact you shortly to confirm your booking.",
+        title: "Booking Submitted Successfully",
+        description: "An admin will contact you shortly to confirm your booking.",
       });
       
       form.reset();
@@ -120,6 +125,28 @@ const PrivateBooking = () => {
                       <div className="relative">
                         <Input type="time" className="pl-10" {...field} />
                         <ClockIcon className="absolute left-3 top-2.5 h-5 w-5 text-neutral-500" />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="phoneNumber"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Phone Number</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input 
+                          type="tel" 
+                          placeholder="Enter your phone number" 
+                          className="pl-10" 
+                          {...field} 
+                        />
+                        <PhoneIcon className="absolute left-3 top-2.5 h-5 w-5 text-neutral-500" />
                       </div>
                     </FormControl>
                     <FormMessage />
