@@ -4,7 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useNavigate, Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -126,6 +126,7 @@ const Login = () => {
           providers={[]}
           redirectTo={window.location.origin}
           view="sign_in"
+          onError={handleError}
         />
       </div>
     </div>
