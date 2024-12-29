@@ -31,7 +31,7 @@ const Footer = () => {
         className="text-muted-foreground hover:text-primary bg-background/80 backdrop-blur-sm rounded-full px-4 py-2 shadow-sm"
         onClick={() => window.open('https://mediaowl.co.za', '_blank')}
       >
-        Media Owl
+        Created by Media Owl
       </Button>
     </div>
   );
