@@ -24,18 +24,16 @@ const Footer = () => {
   if (!showFooter) return null;
 
   return (
-    <footer className="fixed bottom-0 w-full bg-background border-t p-4 transition-opacity duration-300">
-      <div className="container mx-auto flex justify-center">
-        <Button 
-          variant="link" 
-          size="sm"
-          className="text-muted-foreground hover:text-primary"
-          onClick={() => window.open('https://mediaowl.co.za', '_blank')}
-        >
-          Media Owl
-        </Button>
-      </div>
-    </footer>
+    <div className="fixed bottom-4 right-4 transition-opacity duration-300">
+      <Button 
+        variant="link" 
+        size="sm"
+        className="text-muted-foreground hover:text-primary bg-background/80 backdrop-blur-sm rounded-full px-4 py-2 shadow-sm"
+        onClick={() => window.open('https://mediaowl.co.za', '_blank')}
+      >
+        Media Owl
+      </Button>
+    </div>
   );
 };
 
