@@ -2,6 +2,15 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Menu } from "lucide-react";
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -13,6 +22,54 @@ const Landing = () => {
       exit={{ opacity: 0 }}
       className="min-h-screen flex items-center justify-center bg-gradient-to-b from-orange-50 to-orange-100 p-4"
     >
+      {/* Navigation Dropdown */}
+      <div className="fixed top-4 right-4 z-50">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="icon">
+              <Menu className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56">
+            <DropdownMenuLabel>Navigation</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => navigate("/")}>
+              Landing Page
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate("/passenger")}>
+              Passenger Home
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate("/driver")}>
+              Driver Home
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate("/map")}>
+              Map
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate("/admin")}>
+              Admin Dashboard
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel>Driver Features</DropdownMenuLabel>
+            <DropdownMenuItem onClick={() => navigate("/driver/taxi-management")}>
+              Taxi Management
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate("/driver/reviews/1")}>
+              Driver Reviews
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel>Passenger Features</DropdownMenuLabel>
+            <DropdownMenuItem onClick={() => navigate("/passenger/private-booking")}>
+              Private Booking
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel>Authentication</DropdownMenuLabel>
+            <DropdownMenuItem onClick={() => navigate("/login")}>
+              Login
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+
       <Card className="w-full max-w-md p-6 space-y-6">
         <motion.div
           initial={{ y: 20, opacity: 0 }}
