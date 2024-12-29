@@ -14,6 +14,7 @@ import DriverReviews from "./pages/driver/Reviews";
 import PrivateBooking from "./pages/passenger/PrivateBooking";
 import TaxiManagement from "./pages/driver/TaxiManagement";
 import Login from "./pages/auth/Login";
+import Footer from "./components/Footer";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +47,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <AppRoutes />
+          <Footer />
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>
