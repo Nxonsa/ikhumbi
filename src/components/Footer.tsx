@@ -6,6 +6,7 @@ const Footer = () => {
       <div className="container mx-auto flex justify-center">
         <Button 
           variant="link" 
+          size="sm"
           className="text-muted-foreground hover:text-primary"
           onClick={() => window.open('https://mediaowl.co.za', '_blank')}
         >
