@@ -10,7 +10,7 @@ const Footer = () => {
           className="text-muted-foreground hover:text-primary"
           onClick={() => window.open('https://mediaowl.co.za', '_blank')}
         >
-          Created by Media Owl
+          Media Owl
         </Button>
       </div>
     </footer>
